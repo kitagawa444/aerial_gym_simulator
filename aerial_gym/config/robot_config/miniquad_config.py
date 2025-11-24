@@ -130,7 +130,7 @@ class MiniQuadCfg:
         max_euler_angles = [np.pi, np.pi, np.pi]
 
         place_force_sensor = True  # set this to True if IMU is desired
-        force_sensor_parent_link = "fc"
+        force_sensor_parent_link = "base_link"
         force_sensor_transform = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]  # [x, y, z, qx, qy, qz, qw]
 
         use_collision_mesh_instead_of_visual = False  # does nothing for the robot
@@ -146,9 +146,9 @@ class MiniQuadCfg:
         allocation_matrix = [[ 0., 0., 0., 0.],
                              [ 0., 0., 0., 0.],
                              [ 1., 1., 1., 1.],
-                             [-0.16, -0.16, 0.16, 0.16],
-                             [-0.16, 0.16, 0.16, -0.16],
-                             [-0.01, 0.01, -0.01, 0.01]]
+                             [-0.085, -0.085, 0.085, 0.085],
+                             [-0.085, 0.085, 0.085, -0.085],
+                             [-0.011, 0.011, -0.011, 0.011]]
 
         class motor_model_config:
             use_rps = True
@@ -158,9 +158,9 @@ class MiniQuadCfg:
             motor_time_constant_increasing_max = 0.047
             motor_time_constant_decreasing_min = 0.047
             motor_time_constant_decreasing_max = 0.047
-            max_thrust = 1.2
-            min_thrust = 0.2
+            max_thrust = 8.0
+            min_thrust = 0.0
             max_thrust_rate = 100000.0
-            thrust_to_torque_ratio = 0.01
+            thrust_to_torque_ratio = 0.011
             use_discrete_approximation = True
             integration_scheme = "rk4" #"euler"

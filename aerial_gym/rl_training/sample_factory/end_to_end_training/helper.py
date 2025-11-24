@@ -52,7 +52,7 @@ def make_aerialgym_env(
 ) -> Env:
     
 
-    return AerialGymVecEnv(task_registry.make_task(task_name=full_task_name), "obs")
+    return AerialGymVecEnv(task_registry.make_task(task_name=full_task_name, headless=False), "obs")
 
 def add_extra_params_func(parser):
     """
@@ -106,22 +106,22 @@ def override_default_params_func(env, parser, env_configs):
         worker_num_splits=1,
         actor_worker_gpus=[0],  # obviously need a GPU
         train_for_env_steps= 10_000_000_000, #1_109_245_952
-        train_for_seconds=1, # training time parameter. Stop training after train_for_seconds seconds.
+        # train_for_seconds=1, # training time parameter. Stop training after train_for_seconds seconds.
         use_rnn=False,
         adaptive_stddev=False,
         policy_initialization="torch_default",
         env_gpu_actions=True,
         reward_scale=0.1,
         rollout=16,
-        max_grad_norm=0.0,
+        max_grad_norm=1.0,
         batch_size=8192*16, #2048,#32768
         num_batches_per_epoch=4,
         num_epochs=1,
-        ppo_clip_ratio=0.05,
-        value_loss_coeff=2.0,
-        exploration_loss_coeff=0.003, #0.003
+        ppo_clip_ratio=0.1,
+        value_loss_coeff=1.0,
+        exploration_loss_coeff=0.02, #0.003
         nonlinearity="tanh",
-        learning_rate=5e-3,
+        learning_rate=2e-4,
         lr_schedule="kl_adaptive_epoch",
         lr_schedule_kl_threshold=0.008,
         lr_adaptive_min = 1e-6,
@@ -142,8 +142,8 @@ def override_default_params_func(env, parser, env_configs):
         save_every_sec = 20,
         save_best_after = 30_000_001, # make sure to save only after curriculum learning phase is over.
         save_best_every_sec = 20,
-        continuous_tanh_scale = 1.0,
-        initial_stddev = 0.4,
+        continuous_tanh_scale = 0.5,
+        initial_stddev = 0.6,
         actor_critic_share_weights = False,
         seed = 42,
     )
@@ -154,18 +154,18 @@ def override_default_params_func(env, parser, env_configs):
 
 env_configs = dict(
             position_setpoint_task_sim2real_end_to_end=dict(
-            train_for_env_steps=160_000_000,
+            train_for_env_steps=10_000_000_000,
             #encoder_mlp_layers=[256, 128, 64],
             encoder_mlp_layers=[32, 24],#encoder_mlp_layers=[32, 24], #64, 52, 32
             gamma=0.99,
             rollout=32,
-            learning_rate=3e-4,
+            learning_rate=2e-4,
             lr_schedule_kl_threshold=0.016,
             batch_size=4096*16,
             num_epochs=5,
             max_grad_norm=1.0,
             num_batches_per_epoch=2,
-            exploration_loss_coeff=1e-2,
+            exploration_loss_coeff=0.02,
             with_wandb=False,
             wandb_project="gen_aerial_robot",
             wandb_user="welfrehberg",

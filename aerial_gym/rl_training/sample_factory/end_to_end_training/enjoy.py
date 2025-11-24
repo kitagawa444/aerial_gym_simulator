@@ -30,10 +30,10 @@ def test_policy_script_export():
     cfg.train_dir = "./train_dir"
     
     env_cfg = task_registry.get_task_config("position_setpoint_task_sim2real_end_to_end")
-    env = task_registry.make_task("position_setpoint_task_sim2real_end_to_end", num_envs=1, headless=True)
+    env = task_registry.make_task("position_setpoint_task_sim2real_end_to_end", num_envs=1, headless=False)
     obs = env.reset()[0]
     
-    robot_name = "tinyprop"
+    robot_name = "miniquad"
     controller_name = "no_control"
     _, robot_config = robot_registry.make_robot(
             robot_name, controller_name, env_config_registry.get_env_config(env_cfg.env_name), "cuda:0")

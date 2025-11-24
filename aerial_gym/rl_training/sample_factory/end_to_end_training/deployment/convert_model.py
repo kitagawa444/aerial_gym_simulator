@@ -36,7 +36,6 @@ class ModelDeploy(nn.Module):
     def forward(self, x):
         for l_or_a in self.control_stack:
             x = l_or_a(x)
-        
         return x
 
 def convert_model_to_script_model(nn_model_full, max_u, min_u, n_motors):
@@ -56,8 +55,8 @@ def convert_model_to_script_model(nn_model_full, max_u, min_u, n_motors):
     nn_model_deploy.control_stack[4].bias.data[:] = nn_model_full.actor_critic.action_parameterization.distribution_linear.bias.data
     
     sm = torch.jit.script(nn_model_deploy)
-    torch.jit.save(sm, "./deployment/deployed_models/tinyprop.pt")
+    torch.jit.save(sm, "./deployment/deployed_models/miniquad.pt")
 
-    print('Size normal (B):', os.path.getsize("./deployment/deployed_models/tinyprop.pt"))
+    print('Size normal (B):', os.path.getsize("./deployment/deployed_models/miniquad.pt"))
     
     return sm

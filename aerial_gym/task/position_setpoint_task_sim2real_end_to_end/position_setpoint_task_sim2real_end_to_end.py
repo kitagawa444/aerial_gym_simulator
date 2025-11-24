@@ -293,7 +293,7 @@ def compute_reward(
     angvel_reward = torch.sum(exp_func(angvels_err, .3 , 10.0), dim=1)
     vel_reward = torch.sum(exp_func(linvels_err, 1., 5.0), dim=1)
 
-    action_input_offset = action_input - 9.81 * 0.372/4
+    action_input_offset = action_input - 9.81 * 0.912/4
     action_cost = torch.sum(exp_penalty_func(action_input_offset, 0.01, 10.0), dim=1)
 
     closer_by_dist = prev_target_dist - target_dist
